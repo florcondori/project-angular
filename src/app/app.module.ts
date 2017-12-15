@@ -4,15 +4,19 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
+import { GithubComponent } from './github/github.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GithubComponent
   ],
   imports: [
     BrowserModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
