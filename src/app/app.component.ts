@@ -1,5 +1,5 @@
-import { Component,OnInit } from '@angular/core';
-import { FormGroup, FormBuilder , Validators,AbstractControl} from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder , Validators, AbstractControl} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -7,26 +7,35 @@ import { FormGroup, FormBuilder , Validators,AbstractControl} from '@angular/for
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  title = 'Creando una App con Angular CLI';
+  letters = ['hola como estas', 'la mas bella que la bella', 'comer una manzana es jueli'];
+  poem = [];
+  form: FormGroup;
 
-	title = 'Creando una App con Angular CLI';
-	letters = ["hola como estas","la mas bella que la bella", "comer una manzana es jueli"];
-	form: FormGroup;
+  private static CustomValidator(control: AbstractControl) {
+    return control.value ? null : { newValidator: false};
+  }
 
-	private static CustomValidator(control: AbstractControl){
-		return control.value ? null : { newValidator: false} 
-	}
+  constructor(private fb: FormBuilder) {
+  }
+  ngOnInit() {
+    this.form = this.fb.group({
+      name: ['',  [
+        Validators.required,
+        Validators.minLength(7),
+        AppComponent.CustomValidator
+      ]]
+    });
+  }
 
-	constructor(private fb:FormBuilder){
+  saveText() {
+    console.log('guardando texto');
+    console.log(this.form.get('name').value);
+    this.poem.push(this.form.get('name').value);
+  }
 
-	}
-
-	ngOnInit(){
-		this.form = this.fb.group({
-			name: ['hola',  [
-				Validators.required,
-				Validators.minLength(7),
-				AppComponent.CustomValidator
-			]]
-		});
-	}
+  showAll(e) {
+    console.log('ver todo');
+    console.log(this.poem.join('/'));
+  }
 }

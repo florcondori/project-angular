@@ -10,7 +10,11 @@
 </ul>
 
 <form  [formGroup]="form">
-   <input type="text" formControlName="name"/>
+  <label>
+    <input type="text" formControlName="name"/>
+  </label>
+  <button type="button" (click)="saveText()">Enviar Texto</button>
+  <a href="#" (click)="showAll()">finalizar juego</a>
 </form>
 
 <p *ngIf="form.get('name').hasError('required')">
