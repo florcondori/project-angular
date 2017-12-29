@@ -1,0 +1,15 @@
+<div>
+  <h2>Player Data</h2>
+  <form [formGroup]="formPlayerData">
+    <div>
+      <label for="key">game key:</label>
+      <input type="text" id="key" name="key" formControlName="key">
+    </div>
+    <div>
+      <label for="user">nickname:</label>
+      <input type="text" id="user" name="user" formControlName="user">
+    </div>
+    <button type="button" routerLink="/play" [disabled]="formPlayerData.invalid">play</button>
+  </form>
+</div>
+

@@ -1,0 +1,14 @@
+<div>
+  <h2>New Game</h2>
+  <form [formGroup]="formNewGame">
+    <div>
+      <label for="num_player">N° player:</label>
+      <input type="text" name="num_player" id="num_player" formControlName="num_player">
+    </div>
+    <div>
+      <label for="key">enter a password:</label>
+      <input type="text" name="key" id="key" formControlName="key">
+    </div>
+    <button type="button" routerLink="/player-data" [disabled]="formNewGame.invalid">start</button>
+  </form>
+</div>

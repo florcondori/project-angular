@@ -1,0 +1,15 @@
+<div>
+  <h2>The game started</h2>
+  <form [formGroup]="formPlay">
+    <div>
+      <label>
+        write a sentece
+        <input type="text" formControlName="text">
+      </label>
+    </div>
+    <button (click)="saveText()" type="button" [disabled]="formPlay.invalid">send</button>
+    <button type="button" routerLink="/results">see results</button>
+  </form>
+</div>
+{{ formPlay.get('text').hasError('required')}}
+{{formPlay.get('text').errors | json}}
