@@ -9,6 +9,10 @@ import { PlayComponent } from './play/play.component';
 import { ResultComponent } from './result/result.component';
 import { NewGameComponent } from './new-game/new-game.component';
 import {RouterModule, Routes} from '@angular/router';
+import {FirestoreService} from './firestore.service';
+import {AngularFirestoreModule} from 'angularfire2/firestore';
+import {environment} from '../environments/environment';
+import {AngularFireModule} from 'angularfire2';
 
 const appRoutes: Routes = [
   { path: 'new-game', component: NewGameComponent},
@@ -34,8 +38,10 @@ const appRoutes: Routes = [
     ),
     BrowserModule,
     ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule
   ],
-  providers: [],
+  providers: [FirestoreService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

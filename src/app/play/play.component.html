@@ -8,8 +8,13 @@
       </label>
     </div>
     <button (click)="saveText()" type="button" [disabled]="formPlay.invalid">send</button>
-    <button type="button" routerLink="/results">see results</button>
+    <button type="button" (click)="showAll()">see results</button>
   </form>
 </div>
+<ul>
+  <li *ngFor="let item of items | async">
+    {{ item.text}}
+  </li>
+</ul>
 {{ formPlay.get('text').hasError('required')}}
 {{formPlay.get('text').errors | json}}

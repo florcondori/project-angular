@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder , Validators } from '@angular/forms';
+import {FirestoreService} from '../firestore.service';
 
 @Component({
   selector: 'app-play',
@@ -9,7 +10,8 @@ import { FormGroup, FormBuilder , Validators } from '@angular/forms';
 export class PlayComponent {
   poem = [];
   formPlay: FormGroup;
-  constructor(private fb: FormBuilder) {
+  items;
+  constructor(private fb: FormBuilder, private firestoreService: FirestoreService) {
   }
   ngOnInit() {
     this.formPlay = this.fb.group({
@@ -22,12 +24,14 @@ export class PlayComponent {
 
   saveText() {
     console.log('guardando texto');
-    console.log(this.formPlay.get('text').value);
+    // console.log(this.formPlay.get('text').value);
     this.poem.push(this.formPlay.get('text').value);
+    this.firestoreService.saveText({text: this.formPlay.get('text').value});
   }
 
   showAll(e) {
     console.log('ver todo');
     console.log(this.poem.join('/'));
+    this.items = this.firestoreService.showAll();
   }
 }
