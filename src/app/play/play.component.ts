@@ -21,14 +21,14 @@ export class PlayComponent {
       ]]
     });
   }
-
+  /*
   saveText() {
     console.log('guardando texto');
     // console.log(this.formPlay.get('text').value);
     this.poem.push(this.formPlay.get('text').value);
     this.firestoreService.saveText({text: this.formPlay.get('text').value});
   }
-
+*/
   showAll(e) {
     console.log('ver todo');
     console.log(this.poem.join('/'));

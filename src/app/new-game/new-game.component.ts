@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FirestoreService} from '../firestore.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-new-game',
@@ -8,9 +10,12 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 })
 export class NewGameComponent implements OnInit {
   formNewGame: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  isCreated: boolean;
+  idGame;
+  constructor(private fb: FormBuilder, private firestoreService: FirestoreService, private router: Router) { }
 
   ngOnInit() {
+    this.isCreated = false;
     this.formNewGame = this.fb.group({
       num_player: ['',  [
         Validators.required,
@@ -20,6 +25,26 @@ export class NewGameComponent implements OnInit {
         Validators.minLength(4),
       ]]
     });
+  }
+
+  createGame() {
+    const id = this.firestoreService.createGame({
+      id: Date.now(),
+      key_game: this.formNewGame.get('key').value,
+      num_player: this.formNewGame.get('num_player').value,
+      date_created: (new Date()).toString(),
+      text: []
+    });
+    this.isCreated = true;
+    this.idGame = id;
+    console.log(id);
+    /*
+    this.router.navigate(['/']).then(nav => {
+      console.log(nav); // true if navigation is successful
+    }, err => {
+      console.log(err);  // when there's an error
+    });
+    */
   }
 
 }

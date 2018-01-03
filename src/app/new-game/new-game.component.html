@@ -9,6 +9,7 @@
       <label for="key">enter a password:</label>
       <input type="text" name="key" id="key" formControlName="key">
     </div>
-    <button type="button" routerLink="/player-data" [disabled]="formNewGame.invalid">start</button>
+    <button type="button" (click)="createGame()" [disabled]="formNewGame.invalid">create game</button>
+    <p *ngIf="isCreated">este es tu codigo: {{idGame}}</p>
   </form>
 </div>

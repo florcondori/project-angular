@@ -4,21 +4,60 @@ import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class FirestoreService {
-  items: Observable<Item[]>;
-  private itemsCollection: AngularFirestoreCollection<Item>;
+  games: Observable<Game[]>;
+  private gamesCollection: AngularFirestoreCollection<Game>;
 
   constructor( private afs: AngularFirestore) {
-    this.itemsCollection = afs.collection('games');
-    this.items = this.itemsCollection.valueChanges();
+    this.gamesCollection = afs.collection('games');
+    this.games = this.gamesCollection.valueChanges();
   }
-  saveText( text ) {
+  createGame(game: Game) {
+    const id = this.afs.createId();
+    this.gamesCollection.doc(id).set(game).then(function() {
+      console.log('Document successfully written!');
+    });
+    console.log(game, id);
+    return id;
+  }
+  /*saveText( text ) {
     this.itemsCollection.add(text);
     console.log(text);
   }
+ */
   showAll() {
-    console.log(this.items);
-    return this.items;
+    // const docRef = this.afs.collection('games').doc(id);
+
+    /*docRef.get().then(function(doc) {
+      if (doc.exists) {
+        console.log('Document data:', doc.data());
+      } else {
+        console.log('No such document!');
+      }
+    }).catch(function(error) {
+      console.log('Error getting document:', error);
+    });
+    this.afs.collection('games').get().then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data()}`);
+      });
+    });*/
+    const proyectosObservable = this.gamesCollection.snapshotChanges().map(arr => {
+      console.log(arr);
+      return arr.map(snap => {
+        const data = snap.payload.doc.data();
+        const id = snap.payload.doc.id;
+        console.log(data, id);
+        return {id, ...data};
+      });
+    });
+    return proyectosObservable;
   }
 }
-export interface Item { text: string; }
 
+export interface Game {
+  id: number;
+  key_game: string;
+  num_player: number;
+  date_created: string;
+  text: Array<object>;
+}
