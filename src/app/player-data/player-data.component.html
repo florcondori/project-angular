@@ -9,7 +9,7 @@
       <label for="user">nickname:</label>
       <input type="text" id="user" name="user" formControlName="user">
     </div>
-    <button type="button" routerLink="/play" [disabled]="formPlayerData.invalid">play</button>
+    <button type="button" (click)="start()" [disabled]="formPlayerData.invalid">play</button>
   </form>
 </div>
 

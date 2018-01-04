@@ -13,17 +13,21 @@ export class FirestoreService {
   }
   createGame(game: Game) {
     const id = this.afs.createId();
-    this.gamesCollection.doc(id).set(game).then(function() {
+    this.gamesCollection.doc(id).set(game).then(() => {
       console.log('Document successfully written!');
     });
     console.log(game, id);
     return id;
   }
-  /*saveText( text ) {
-    this.itemsCollection.add(text);
-    console.log(text);
+  saveText( id, user, text ) {
+    console.log(id, user, text);
+    this.gamesCollection.doc(id).collection('text').add({
+      user: user,
+      text: text,
+      date_created: new Date()
+    });
+    console.log(this.games);
   }
- */
   showAll() {
     // const docRef = this.afs.collection('games').doc(id);
 
@@ -46,7 +50,9 @@ export class FirestoreService {
       return arr.map(snap => {
         const data = snap.payload.doc.data();
         const id = snap.payload.doc.id;
-        console.log(data, id);
+        if (id === '3oXHVp8nFQ30LXzZVejt') {
+          console.log(data, id);
+        }
         return {id, ...data};
       });
     });
@@ -56,8 +62,7 @@ export class FirestoreService {
 
 export interface Game {
   id: number;
-  key_game: string;
   num_player: number;
-  date_created: string;
+  date_created: number;
   text: Array<object>;
 }

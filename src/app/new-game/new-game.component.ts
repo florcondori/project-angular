@@ -19,10 +19,6 @@ export class NewGameComponent implements OnInit {
     this.formNewGame = this.fb.group({
       num_player: ['',  [
         Validators.required,
-      ]],
-      key: ['',  [
-        Validators.required,
-        Validators.minLength(4),
       ]]
     });
   }
@@ -30,9 +26,8 @@ export class NewGameComponent implements OnInit {
   createGame() {
     const id = this.firestoreService.createGame({
       id: Date.now(),
-      key_game: this.formNewGame.get('key').value,
       num_player: this.formNewGame.get('num_player').value,
-      date_created: (new Date()).toString(),
+      date_created: Date.now(),
       text: []
     });
     this.isCreated = true;

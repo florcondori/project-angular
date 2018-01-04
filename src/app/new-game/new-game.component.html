@@ -5,11 +5,9 @@
       <label for="num_player">N° player:</label>
       <input type="text" name="num_player" id="num_player" formControlName="num_player">
     </div>
-    <div>
-      <label for="key">enter a password:</label>
-      <input type="text" name="key" id="key" formControlName="key">
-    </div>
-    <button type="button" (click)="createGame()" [disabled]="formNewGame.invalid">create game</button>
+    <button type="button" (click)="createGame()" [disabled]="formNewGame.invalid" [hidden]="isCreated">create game</button>
     <p *ngIf="isCreated">este es tu codigo: {{idGame}}</p>
+    <a href="" [hidden]="!isCreated" routerLink="/">return</a>
+    <a href="" [hidden]="!isCreated" routerLink="/play">start</a>
   </form>
 </div>

@@ -2,10 +2,16 @@
   <h2>The game started</h2>
   <form [formGroup]="formPlay">
     <div>
-      <label>
-        write a sentece
-        <input type="text" formControlName="text">
-      </label>
+      <label for="key">game key:</label>
+      <input type="text" id="key" name="key" formControlName="key">
+    </div>
+    <div>
+      <label for="user">nickname:</label>
+      <input type="text" id="user" name="user" formControlName="user">
+    </div>
+    <div>
+      <label for="text">text:</label>
+      <input type="text" formControlName="text" id="text">
     </div>
     <button (click)="saveText()" type="button" [disabled]="formPlay.invalid">send</button>
     <button type="button" (click)="showAll()">see results</button>
@@ -16,5 +22,4 @@
     {{ item.text}}
   </li>
 </ul>
-{{ formPlay.get('text').hasError('required')}}
-{{formPlay.get('text').errors | json}}
+
