@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import {AngularFirestore, AngularFirestoreCollection} from 'angularfire2/firestore';
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from 'angularfire2/firestore';
 import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class FirestoreService {
   games: Observable<Game[]>;
+  private gameDoc;
+  textDoc;
   private gamesCollection: AngularFirestoreCollection<Game>;
 
-  constructor( private afs: AngularFirestore) {
-    this.gamesCollection = afs.collection('games');
+  constructor(private afs: AngularFirestore) {
+    this.gamesCollection = this.afs.collection('games');
     this.games = this.gamesCollection.valueChanges();
   }
+
   createGame(game: Game) {
     const id = this.afs.createId();
     this.gamesCollection.doc(id).set(game).then(() => {
@@ -19,15 +22,28 @@ export class FirestoreService {
     console.log(game, id);
     return id;
   }
-  saveText( id, user, text ) {
+
+  saveText(id, user, text) {
     console.log(id, user, text);
-    this.gamesCollection.doc(id).collection('text').add({
+    const data = {
       user: user,
       text: text,
       date_created: new Date()
+    };
+    this.gamesCollection.doc(id).valueChanges().subscribe( game => {
+      /*const doc   = {'text': game['text']};
+      doc['text'].push(data);
+      */
+      console.log(game);
+      this.textDoc = game['text'];
     });
-    console.log(this.games);
+    this.gamesCollection.doc(id).update({text: [{
+        user: user,
+        text: text,
+        date_created: new Date()
+    }]});
   }
+
   showAll() {
     // const docRef = this.afs.collection('games').doc(id);
 
@@ -44,7 +60,7 @@ export class FirestoreService {
       querySnapshot.forEach((doc) => {
         console.log(`${doc.id} => ${doc.data()}`);
       });
-    });*/
+    });
     const proyectosObservable = this.gamesCollection.snapshotChanges().map(arr => {
       console.log(arr);
       return arr.map(snap => {
@@ -58,8 +74,9 @@ export class FirestoreService {
     });
     return proyectosObservable;
   }
+  */
+  }
 }
-
 export interface Game {
   id: number;
   num_player: number;
