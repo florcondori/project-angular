@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FirestoreService} from '../firestore.service';
 
 @Component({
   selector: 'app-result',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResultComponent implements OnInit {
 
-  constructor() { }
+  constructor(private firestoreService: FirestoreService ) { }
 
   ngOnInit() {
+
   }
 
 }

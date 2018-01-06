@@ -27,37 +27,20 @@ export class FirestoreService {
   }
 
   saveText(id, user, text) {
-    console.log(id, user, text);
     const newData = {
       user: user,
       sentece: text,
       date_created: new Date()
     };
-    this.gamesCollection.doc(id).valueChanges()
-    .subscribe( game => {
-      this.gameDoc = game;
-      console.log('subscribe', game);
-      /*
-      if (game && game['text']) {
-        console.log(game['text']);
-        const arr = game['text'];
-        arr.push(newData);
-        console.log(arr);
-        this.actualizar(id, arr);
-      }
-      */
-     });
-  }
-  actualizar (id, newInfo) {
-    this.gamesCollection.doc(id).update({text: newInfo}).then( () => {
-      console.log('update');
-    }).catch((e) => {
-      console.log('error');
-    });
+    this.gamesCollection.doc(id).collection('text').add(newData).then( () => console.log('add text'));
   }
 
-  showAll(id): Observable<any> {
-    return this.afs.collection('games', ref => ref.where('id', '==', id)).valueChanges();
+
+  showAll(id) {
+    return this.gamesCollection.doc(id).collection('text').valueChanges();
+  }
+  getNumPlayer (id) {
+    return this.gamesCollection.doc(id).valueChanges();
   }
 }
 export interface Game {

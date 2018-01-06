@@ -9,10 +9,11 @@ import {ActivatedRoute, Router} from '@angular/router';
   styleUrls: ['./play.component.css']
 })
 export class PlayComponent {
-  poem = [];
   formPlay: FormGroup;
-  items;
-  constructor(private fb: FormBuilder, private firestoreService: FirestoreService, private router: ActivatedRoute) {
+  id;
+  items= [];
+  num_player;
+  constructor(private fb: FormBuilder, private firestoreService: FirestoreService) {
   }
   ngOnInit() {
     this.formPlay = this.fb.group({
@@ -31,17 +32,23 @@ export class PlayComponent {
     });
   }
   saveText() {
+    this.id = this.formPlay.get('key').value;
     console.log('guardando texto');
     this.firestoreService.saveText(
-      this.formPlay.get('key').value,
+      this.id,
       this.formPlay.get('user').value,
       this.formPlay.get('text').value
     );
   }
-
-  showAll(e) {
+  showAll() {
     console.log('ver todo');
-    console.log(this.poem.join('/'));
-    this.items = this.firestoreService.showAll();
+    this.firestoreService.showAll( this.formPlay.get('key').value).subscribe((arrText) => {
+      arrText.forEach( text => {
+        console.log(text['sentece']);
+        this.items.push(text['sentece']);
+        console.log(this.items);
+      });
+    });
+
   }
 }
